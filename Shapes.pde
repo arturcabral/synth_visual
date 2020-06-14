@@ -7,7 +7,7 @@ class Shape {
   PVector size;
   int radius;
   String type;
-
+  int nslides;
   int FillDistance;
   PVector FillSize;
   float FillRotate;
@@ -21,6 +21,7 @@ class Shape {
     size = new PVector(100, 100);
     radius = 0;
     type = Type;
+    nslides = 3;
     
     FillDistance = 5;
     FillSize = new PVector(width, 2);
@@ -36,7 +37,7 @@ class Shape {
       pg.rectMode(CENTER);
       pg.rect(position.x, position.y, size.x, size.y, radius);
     } else if (type.equals("t")) {
-      simpletriangle(position.x, position.y, size.x, size.y);
+      polygon(position.x, position.y, size.x, size.y, nslides);
     } else if (type.equals("x")) {
       pg.shapeMode(CENTER);
       x.disableStyle();
@@ -46,9 +47,9 @@ class Shape {
     PGfill.mask(pg);
     image(PGfill, 0, 0);
   }
-  
+
   //Seta configurações do shape
-  void seter(int px, int py, int pr, int x, int y, int r)  { 
+  void seter(int px, int py, int pr, int x, int y, int r) { 
     position.set(px, py, pr);
     size.set(x, y);
     radius = r;
@@ -73,10 +74,15 @@ class Shape {
     PGfill.endDraw();
   }
 
-  // Cria a função do simpletriangle() básico. 
-  void simpletriangle(float x, float y, float w, float h) {
-    triangle(x, y, 
-      x+w/2, y-h, 
-      x+w, y);
+  // Cria a função do polygon() básico. 
+  void polygon(float x, float y, float radiusx, float radiusy, int npoints) {
+    float angle = TWO_PI / npoints;
+    pg.beginShape();
+    for (float a = 0; a < TWO_PI; a += angle) {
+      float sx = x + cos(a) * radiusx;
+      float sy = y + sin(a) * radiusy;
+      pg.vertex(sx, sy);
+    }
+    pg.endShape(CLOSE);
   }
 }
