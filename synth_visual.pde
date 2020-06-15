@@ -2,19 +2,26 @@
 Shape[] shapes = new Shape[4];
 int s = 0;
 
+//Tamanho Tela
+int w = 800;
+int h = 600;
+
 void setup() {
-  size(800, 600);
+  size(950, 600);
   x = loadShape("x.svg"); //carrega svg
 
   noStroke();
   fill(0);
+  
+  //Botão tipo radio do Control P5
+  Controlp5();
 
   //cria um novo shape
   shapes[0] = new Shape("r"); // r = rect / ellipse , t = triangle e x = letter x
 }
 
 void draw() {
-  rect(0, 0, width, height); // zera o fundo
+  rect(0, 0, w, h); // zera o fundo
 
   for (Shape i : shapes) {
     if ( i == null ) {
@@ -22,6 +29,7 @@ void draw() {
       i.render(); // renderiza todos os shapes dentro de Shape
     }
   }
+  //shapes[s].seter(StateKnobA, StateKnobB, 0, StateKnobC, StateKnobD, 0);
 }
 
 void keyPressed() {
@@ -36,10 +44,10 @@ void keyPressed() {
   }
 
   if (key == ENTER) {
-    shapes[s].seter(100, 100, 0, 200, 200, 100); //seta os valores dist,sx,sy,r
+    shapes[s].seter(StateKnobA, StateKnobB, 0, StateKnobC, StateKnobD, 0); //  position x, position y, rotation , size x,size y, radius
   }
 
   if (key == BACKSPACE) {
-    shapes[s].FillSeter(20, width, 2, 0);
+    shapes[s].FillSeter(20, w, 2, 0);
   }
 }

@@ -17,7 +17,7 @@ class Shape {
 
   //Configurações Shape
   Shape(String Type) {
-    position = new PVector(width/2, height/2, 0); //x , y e rotation
+    position = new PVector(w/2, h/2, 0); //x , y e rotation
     size = new PVector(100, 100);
     radius = 0;
     type = Type;
@@ -30,14 +30,16 @@ class Shape {
 
   void render() {
     Fill();
-    pg = createGraphics(width, height); //size of mask
+    pg = createGraphics(w, h); //size of mask
     pg.beginDraw();
-    //maskImage.fill(0);
+    //rect
     if (type.equals("r") ) {
       pg.rectMode(CENTER);
       pg.rect(position.x, position.y, size.x, size.y, radius);
-    } else if (type.equals("t")) {
+    //polygon
+    } else if (type.equals("p")) {
       polygon(position.x, position.y, size.x, size.y, nslides);
+    //x  
     } else if (type.equals("x")) {
       pg.shapeMode(CENTER);
       x.disableStyle();
@@ -64,10 +66,10 @@ class Shape {
 
   void Fill() {
 
-    PGfill = createGraphics(width, height);
+    PGfill = createGraphics(w, h);
     PGfill.beginDraw();
     PGfill.fill(255);
-    for (int i = 0; i < height; i = i+FillDistance) {
+    for (int i = 0; i < h; i = i+FillDistance) {
       PGfill.shapeMode(CENTER);
       PGfill.rect(0, i, FillSize.x, FillSize.y);
     }
