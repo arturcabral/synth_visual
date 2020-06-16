@@ -6,7 +6,7 @@ class Shape {
   PVector position;
   PVector size;
   int radius;
-  String type;
+  int type;
   int nslides;
   int FillDistance;
   PVector FillSize;
@@ -14,17 +14,18 @@ class Shape {
 
   PGraphics pg; //cria canvas
   PGraphics PGfill; //cria canvas do fill
+  PGraphics PGout; //cria canvas do fill
 
   //Configurações Shape
-  Shape(String Type) {
-    position = new PVector(w/2, h/2, 0); //x , y e rotation
+  Shape() {
+    position = new PVector(0, 0, 0); //x , y e rotation
     size = new PVector(100, 100);
     radius = 0;
-    type = Type;
+    type = 0;
     nslides = 3;
     
     FillDistance = 5;
-    FillSize = new PVector(width, 2);
+    FillSize = new PVector(w, 2);
     FillRotate = 0;
   }
 
@@ -32,30 +33,50 @@ class Shape {
     Fill();
     pg = createGraphics(w, h); //size of mask
     pg.beginDraw();
+     
+    pg.translate(w/2,h/2);
+    pg.pushMatrix();
+    pg.translate(-300, 60);
+
+    pg.rotate(radians(position.z));
+    //pg.translate(-position.x, -position.y);
+
     //rect
-    if (type.equals("r") ) {
+    if (type == 1) {
       pg.rectMode(CENTER);
-      pg.rect(position.x, position.y, size.x, size.y, radius);
+      pg.rect(0, 0, size.x, size.y, radius);
     //polygon
-    } else if (type.equals("p")) {
-      polygon(position.x, position.y, size.x, size.y, nslides);
+    } else if (type == 2) {
+      polygon(0, 0, size.x, size.y, nslides);
     //x  
-    } else if (type.equals("x")) {
+    } else if (type == 3) {
       pg.shapeMode(CENTER);
       x.disableStyle();
-      pg.shape(x, position.x, position.y, size.x, size.y);
+      pg.shape(x, 0, 0, size.x, size.y);
+    } else{
+
     }
+    pg.popMatrix();
     pg.endDraw();
     PGfill.mask(pg);
-    image(PGfill, 0, 0);
-  }
+    
+    PGout = createGraphics(w, h); //size of mask
+
+    PGout.beginDraw();
+    PGout.image(PGfill, position.x, position.y);
+    PGout.endDraw();
+    image(PGout,0,0);
+}
 
   //Seta configurações do shape
-  void seter(int px, int py, int pr, int x, int y, int r) { 
+  void seter(int px, int py, int pr, int x, int y, int r, int t, int ns) { 
     position.set(px, py, pr);
     size.set(x, y);
     radius = r;
+    type = t;
+    nslides = ns;
   }
+
   //Seta configurações do Fill
   void FillSeter(int dist, int sx, int sy, int r) {
     FillDistance = dist;
